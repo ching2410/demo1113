@@ -1,0 +1,13 @@
+# Python virtual environment
+bin/
+lib/
+include/
+pyvenv.cfg
+
+# SQLite 資料庫
+instance/
+*.db
+
+# Python cache
+__pycache__/
+*.pyc

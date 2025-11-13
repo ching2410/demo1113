@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>我的地圖收藏</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+<body>
+  <h1>🗺️ {{ current_user.username if current_user.is_authenticated else "訪客" }} 的地圖收藏</h1>
+  <a href="{{ url_for('index') }}">返回清單</a>
+  <div id="map" style="height:600px; margin-top:10px;"></div>
+
+  <script>
+    // 建立地圖
+    var map = L.map('map').setView([23.5, 121], 7);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap'
+    }).addTo(map);
+
+    // 取得景點資料
+    var spots = {{ spots|tojson | safe }} || [];
+
+    spots.forEach(function(s) {
+      // 只建立有經緯度的標記
+      var lat = parseFloat(s.lat);
+      var lng = parseFloat(s.lng);
+      if (!isNaN(lat) && !isNaN(lng)) {
+        L.marker([lat, lng])
+          .addTo(map)
+          .bindPopup(
+            `<b>${s.name || ''}</b><br>
+             ${s.city || ''}<br>
+             ${s.comment || ''}`
+          );
+      }
+    });
+  </script>
+</body>
+</html>

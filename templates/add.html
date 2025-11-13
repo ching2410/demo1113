@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>新增地點</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+<body>
+  <h1>新增地點</h1>
+  <form method="POST">
+    <label>地點名稱：</label><br>
+    <input type="text" name="name" required><br><br>
+    <label>城市：</label><br>
+    <input type="text" name="city" required><br><br>
+    <label>心得：</label><br>
+    <textarea name="comment" rows="4"></textarea><br><br>
+
+    <label>緯度：</label>
+    <input id="lat" name="lat" readonly><br>
+    <label>經度：</label>
+    <input id="lng" name="lng" readonly><br><br>
+
+    <div id="map" style="height:300px;"></div><br>
+
+    <button type="submit">儲存</button>
+  </form>
+  <a href="{{ url_for('index') }}">返回首頁</a>
+
+  <script>
+    var map = L.map('map').setView([23.5, 121], 7);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap'
+    }).addTo(map);
+
+    var marker;
+    map.on('click', function(e) {
+      if (marker) marker.remove();
+      marker = L.marker(e.latlng).addTo(map);
+      document.getElementById('lat').value = e.latlng.lat.toFixed(6);
+      document.getElementById('lng').value = e.latlng.lng.toFixed(6);
+    });
+  </script>
+</body>
+</html>

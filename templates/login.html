@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>登入</title>
+</head>
+<body>
+  <h1>登入</h1>
+
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul>
+        {% for msg in messages %}
+          <li style="color:red;">{{ msg }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
+  <form method="POST">
+    <input name="username" placeholder="帳號" required><br><br>
+    <input name="password" type="password" placeholder="密碼" required><br><br>
+    <input type="hidden" name="next" value="{{ next }}">
+    <button type="submit">登入</button>
+  </form>
+
+  <p>沒有帳號？ <a href="{{ url_for('register') }}">註冊</a></p>
+</body>
+</html>

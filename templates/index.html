@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head><meta charset="UTF-8"><title>我的旅遊收藏</title></head>
+<body>
+  <h1>🌏 {{ current_user.username }} 的旅遊收藏</h1>
+  <a href="{{ url_for('add_spot') }}">➕ 新增地點</a> |
+  <a href="{{ url_for('map_view') }}">🗺️ 查看地圖</a> |
+  <a href="{{ url_for('logout') }}">登出</a>
+  <hr>
+  <form method="GET">
+    <input type="text" name="city" placeholder="搜尋城市..." value="{{ city or '' }}">
+    <button type="submit">搜尋</button>
+  </form>
+  <hr>
+  {% for s in spots %}
+    <h3>{{ s.name }}（{{ s.city }}）</h3>
+    <p>{{ s.comment }}</p>
+    {% if s.lat and s.lng %}<p>座標：{{ s.lat }}, {{ s.lng }}</p>{% endif %}
+    <a href="{{ url_for('edit_spot', id=s.id) }}">編輯</a> |
+    <a href="{{ url_for('delete_spot', id=s.id) }}">刪除</a>
+    <hr>
+  {% else %}
+    <p>目前沒有收藏的地點。</p>
+  {% endfor %}
+</body>
+</html>

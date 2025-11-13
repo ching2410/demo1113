@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head><meta charset="UTF-8"><title>{% if spot %}編輯{% else %}新增{% endif %}地點</title></head>
+<body>
+  <h1>{% if spot %}編輯{% else %}新增{% endif %}地點</h1>
+  <form method="POST">
+    <input name="name" placeholder="名稱" value="{{ spot.name if spot else '' }}" required><br><br>
+    <input name="city" placeholder="城市" value="{{ spot.city if spot else '' }}"><br><br>
+    <input name="comment" placeholder="評論" value="{{ spot.comment if spot else '' }}"><br><br>
+    <input name="lat" placeholder="緯度" value="{{ spot.lat if spot else '' }}"><br><br>
+    <input name="lng" placeholder="經度" value="{{ spot.lng if spot else '' }}"><br><br>
+    <button type="submit">{% if spot %}更新{% else %}新增{% endif %}</button>
+  </form>
+  <a href="{{ url_for('index') }}">回到列表</a>
+</body>
+</html>
